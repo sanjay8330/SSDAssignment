@@ -25,6 +25,11 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 function HomePage() {
     const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
+    function handlebtn(){
+        if(isAuthenticated){
+            window.location = '/userHome';
+        }
+    }
     return (
         <div>
             <div class="clone-airbnb">
@@ -58,7 +63,9 @@ function HomePage() {
                 <img class="d-block w-100" src={abc} alt="First slide" style={{ opacity: "0.7" }} />
                 <div class="centered"><p style={{ fontSize: "200px", color: "#eb3110", fontFamily: "audiowide" }}>ABC</p></div>
                 <br /><br /><br />
-                <div class="centered2"><b><p style={{ fontSize: "60px", color: "#bd3011", fontFamily: "trirong" }}>Saving Massages & Files</p></b></div>
+                <div class="centered2"><b><p style={{ fontSize: "60px", color: "#bd3011", fontFamily: "trirong" }}>Saving Massages & Files</p></b>
+                <button onClick={handlebtn}> Get started </button></div>
+                
             </div>
         </div>
     )
