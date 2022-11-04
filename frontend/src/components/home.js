@@ -78,7 +78,7 @@ function HomePage() {
         Axios.put(`http://localhost:3001/user/updateUserToken/${userid}`, updUserObj)
             .then((result) => {
                 console.log('Token Updated successfully!');
-                window.location = '/userHome';
+                window.location = `/userHome/${userid}`;
             }).catch(error => {
                 console.log('Error in Update!');
             })
