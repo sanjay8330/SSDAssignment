@@ -22,20 +22,14 @@ const UserSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    userPassword: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    userContact: {
-        type: String,
-        required: true,
-        trim: true
-    },
     userRole: {
         type: String,
         required: true,
         trim: true
+    },
+    jwtToken: {
+        type: String,
+        required: false
     }
 });
 

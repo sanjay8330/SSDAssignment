@@ -10,6 +10,8 @@ root.render(
       domain='dev-qnou8xkfjg4shami.us.auth0.com'
       clientId='Nn7jSBVbAsjsPXXTciX5tLc6COZ6O0pP'
       redirectUri={window.location.origin}
+      audience='Unique identifier'
+      scope='openid profile email'
     >
       <App />
     </Auth0Provider>
