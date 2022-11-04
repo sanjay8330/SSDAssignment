@@ -145,4 +145,25 @@ router.route("/updateUserRole/:id").put(async (req, res) => {
     }
 });
 
+router.route("/updateUserToken/:id").put(async (req, res) => {
+    const newToken = req.body.newToken;
+
+    const Id = req.params.id;
+
+    try {
+        await UserModel.findById(Id, (err, updUserObject) => {
+            updUserObject.jwtToken = newToken;
+
+            updUserObject.save()
+                .then(data => {
+                    res.status(200).send({ data: data });
+                }).catch(error => {
+                    res.status(500).send({ error: error });
+                })
+        });
+    } catch (err) {
+        console.log('Error in Token Update!');
+    }
+});
+
 module.exports = router;

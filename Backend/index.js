@@ -9,6 +9,10 @@ const bodyparser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
+const jwt = require('express-jwt');
+const jwks = require('jwks-rsa');
+
+
 dotenv.config();
 //Creating an app from express
 const app = express();
@@ -18,9 +22,38 @@ const app = express();
 app.use(bodyparser.json());
 app.use(cors());
 
+//Token Verification
+// const jwtCheck = jwt({       
+// 	secret: jwks.expressJwtSecret({           
+// 		cache: true,           
+// 		rateLimit: true,          
+// 		jwksRequestsPerMinute: 5,           
+// 		jwksUri: 'https://dev-qnou8xkfjg4shami.us.auth0.com/.well-known/jwks.json'    
+// 	}),     
+// 	audience: 'Unique identifier',     
+// 	issuer: 'https://dev-qnou8xkfjg4shami.us.auth0.com/',     
+// 	algorithms: ['RS256'] 
+// }); 
+
+// app.use(jwtCheck);
+//END
+
 app.get('/', async(req,res) => {
     res.send('Welcome to the Secure Messaging Application!!');
 })
+
+//Handle errors
+app.use((error, req, res, next) => {
+    const status = error.status || 500;
+    const message = error.message || 'Internal Server Error';
+    res.status(status).send(message);
+});
+
+app.use((req, res, next) => {
+    const error = new Error('Not Found!');
+    error.status = 404;
+    next(error);
+});
 
 const UserRoutes = require('./routes/User');
 const MessageRoutes = require('./routes/Message');
