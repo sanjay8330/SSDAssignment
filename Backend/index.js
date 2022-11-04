@@ -9,7 +9,7 @@ const bodyparser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
-const jwt = require('express-jwt');
+var { expressjwt: jwt } = require("express-jwt");
 const jwks = require('jwks-rsa');
 
 
@@ -23,19 +23,27 @@ app.use(bodyparser.json());
 app.use(cors());
 
 //Token Verification
-// const jwtCheck = jwt({       
-// 	secret: jwks.expressJwtSecret({           
-// 		cache: true,           
-// 		rateLimit: true,          
-// 		jwksRequestsPerMinute: 5,           
-// 		jwksUri: 'https://dev-qnou8xkfjg4shami.us.auth0.com/.well-known/jwks.json'    
-// 	}),     
-// 	audience: 'Unique identifier',     
-// 	issuer: 'https://dev-qnou8xkfjg4shami.us.auth0.com/',     
-// 	algorithms: ['RS256'] 
-// }); 
+const UserRoutes = require('./routes/User');
+const MessageRoutes = require('./routes/Message');
+const FileRoutes = require('./routes/File');
 
-// app.use(jwtCheck);
+app.use("/user", UserRoutes);
+app.use("/message", MessageRoutes);
+app.use("/file", FileRoutes);
+
+const verifyToken = jwt({
+    secret: jwks.expressJwtSecret({
+        cache: true,           
+        rateLimit: true,          
+        jwksRequestsPerMinute: 5,           
+        jwksUri: 'https://dev-qnou8xkfjg4shami.us.auth0.com/.well-known/jwks.json'
+    }), 
+    audience: 'Unique identifier',     
+    issuer: 'https://dev-qnou8xkfjg4shami.us.auth0.com/',     
+    algorithms: ['RS256'] 
+}).unless({ path: ['/']}); 
+
+app.use(verifyToken);
 //END
 
 app.get('/', async(req,res) => {
@@ -54,14 +62,6 @@ app.use((req, res, next) => {
     error.status = 404;
     next(error);
 });
-
-const UserRoutes = require('./routes/User');
-const MessageRoutes = require('./routes/Message');
-const FileRoutes = require('./routes/File');
-
-app.use("/user", UserRoutes);
-app.use("/message", MessageRoutes);
-app.use("/file", FileRoutes);
 
 const PORT = process.env.PORT || 3001;
 const MONGODB_URI = process.env.MONGODB_URI;
