@@ -17,6 +17,11 @@ const FileSchema = new mongoose.Schema({
         required: true,//Make false in case of error
         ref: 'Users'
     },
+    fileName: { 
+        type: String,
+        required: true,
+        trim: true 
+    },
     fileDownloadURL: { 
         type: String,
         required: true,
