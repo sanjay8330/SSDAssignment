@@ -109,6 +109,10 @@ function HomePage() {
         }
     }
 
+    function handleAdminLogin(){
+        window.location = '/login';
+    }
+
     return (
         <div>
             <div class="clone-airbnb">
@@ -134,6 +138,9 @@ function HomePage() {
                             </a>
                         </div>
                         <div class="search-bar-container pull-right">
+                        </div>
+                        <div>
+                            <a onClick={handleAdminLogin}><b>Admin Login</b></a>
                         </div>
                     </div>
                 </div>
