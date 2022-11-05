@@ -52,10 +52,10 @@ export default class addNotePage extends Component {
             .then((result) => {
                 messages = result.data.data;
 
-                if(messages.length > 0){
+                if (messages.length > 0) {
                     this.setState({ previousMsgs: messages });
                     document.getElementById("noMessageTag").style.display = "none";
-                }else{
+                } else {
                     document.getElementById("noMessageTag").style.display = "block";
                 }
             }).catch((error) => {
@@ -121,7 +121,7 @@ export default class addNotePage extends Component {
                 <Header />
                 <div class="wrapper">
                     <main>
-                        <div class="container border rounded" style={{ width: '500px', marginLeft: "50px", backgroundColor: "#97c5de" }}>
+                        <div class="container border rounded" style={{ width: '500px', backgroundColor: "#97c5de" }}>
                             <div class="row">
                                 <div class="col-lg-12 col-md-6">
                                     <form><br />
@@ -137,7 +137,7 @@ export default class addNotePage extends Component {
                                                 disabled
                                                 required
                                                 style={{ border: "1px solid #c8cfcb", backgroundColor: "#edf0eb" }} /><br />
-                                            <span style={{ color: "black" }}>Message<span style={{ color: "red", fontSize: "24px" }}>*</span></span>&emsp; &emsp;<font color="red" style={{ fontSize: '14px' }}></font>
+                                            <span style={{ color: "black" }}>Message<span style={{ color: "red", fontSize: "24px" }}>*</span>&emsp;</span>&emsp; &emsp;<font color="red" style={{ fontSize: '14px' }}></font>
                                             <textarea
                                                 className="form-control"
                                                 rows="6"
@@ -147,7 +147,9 @@ export default class addNotePage extends Component {
                                                 onChange={this.onChange}
                                                 required
                                                 style={{ border: "1px solid #c8cfcb", backgroundColor: "#edf0eb" }}>
-                                            </textarea><br />
+                                            </textarea>
+                                            <div id="errorMsg" style={{ display: "none" }}><p style={{ color: "red" }}>{this.state.errorMsg}</p></div>
+                                            <br />
                                             <div id="uploadFileSection" style={{ display: "none" }}>
                                                 <span style={{ color: "black" }}>Upload File<span style={{ color: "red", fontSize: "24px" }}>*</span></span>
                                                 <input
@@ -158,7 +160,6 @@ export default class addNotePage extends Component {
                                                     style={{ border: "1px solid #c8cfcb", backgroundColor: "#edf0eb" }}
                                                 />
                                             </div>
-                                            <div id="errorMsg" style={{ display: "none" }}><p style={{ color: "red" }}>{this.state.errorMsg}</p></div>
                                             <br />
                                         </div>
                                         <button type="submit" style={{ width: '100%' }} className="btn btn-dark" id="sendBtn" onClick={this.handleSubmitBtn}>SEND&emsp;<i class="fas fa-paper-plane" aria-hidden="true"></i></button>
@@ -166,59 +167,67 @@ export default class addNotePage extends Component {
                                     </form>
                                 </div>
                             </div>
-                        </div><br />
-                        <table class="table border shadow" id="casti_male" style={{ width: "52%", marginLeft: "630px", marginTop: "-51%" }}>
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">MESSAGE</th>
-                                    <th scope="col">SEND DATE</th>
-                                    <th scope="col">SEND TIME</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.state.previousMsgs.length > 0 && this.state.previousMsgs.map((item, index) =>
-                                    <tr>
-                                        <td><textarea disabled rows="3" cols="45" style={{ border: "1px solid #c8cfcb", backgroundColor: "#edf0eb" }}>{item.message}</textarea></td>
-                                        <td>{item.sentDate}</td>
-                                        <td>{item.sentTime}</td>
-                                    </tr>
-                                )}
-                                <div id="noMessageTag" style={{ display: "none" }}><center><h3>No previous messages to display</h3></center></div>
-                            </tbody>
-                        </table>
-                        <br />
-                        <table class="table border shadow" id="fileUploadTbSection" style={{ width: "52%", marginLeft: "630px", marginTop: "-1%", display: "none" }}>
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">FILE</th>
-                                    <th scope="col">UPLOAD DATE</th>
-                                    <th scope="col">UPLOAD TIME</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>work.txt</td>
-                                    <td>2022.10.20</td>
-                                    <td>10:00 AM</td>
-                                </tr>
-                                <tr>
-                                    <td>work.txt</td>
-                                    <td>2022.10.20</td>
-                                    <td>10:00 AM</td>
-                                </tr>
-                                <tr>
-                                    <td>work.txt</td>
-                                    <td>2022.10.20</td>
-                                    <td>10:00 AM</td>
-                                </tr>
-                                <tr>
-                                    <td>work.txt</td>
-                                    <td>2022.10.20</td>
-                                    <td>10:00 AM</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <br /><br />
+                        </div>
+                        <br /><hr /><br />
+                        <div class="row">
+                            <div class="column">
+                                <table class="table" id="casti_male">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">MESSAGE</th>
+                                            <th scope="col">SEND DATE</th>
+                                            <th scope="col">SEND TIME</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.state.previousMsgs.length > 0 && this.state.previousMsgs.map((item, index) =>
+                                            <tr>
+                                                <td>{item.message}</td>
+                                                <td>{item.sentDate}</td>
+                                                <td>{item.sentTime}</td>
+                                            </tr>
+                                        )}
+                                        <br />
+                                        <div class="alert alert-danger" role="alert" style={{ width: "156%", display: "none", fontFamily: "serif" }} id="noMessageTag">
+                                            <center><h3>No previous messages to display</h3></center>
+                                        </div>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="column">
+                                <table class="table" id="fileUploadTbSection">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col" style={{ width: '62%' }}>FILE</th>
+                                            <th scope="col">UPLOAD DATE</th>
+                                            <th scope="col">UPLOAD TIME</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>work.txt</td>
+                                            <td>2022.10.20</td>
+                                            <td>10:00 AM</td>
+                                        </tr>
+                                        <tr>
+                                            <td>work.txt</td>
+                                            <td>2022.10.20</td>
+                                            <td>10:00 AM</td>
+                                        </tr>
+                                        <tr>
+                                            <td>work.txt</td>
+                                            <td>2022.10.20</td>
+                                            <td>10:00 AM</td>
+                                        </tr>
+                                        <tr>
+                                            <td>work.txt</td>
+                                            <td>2022.10.20</td>
+                                            <td>10:00 AM</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </main>
                 </div>
             </div>
