@@ -127,21 +127,24 @@ function HomePage() {
                                 <i class="icon icon-white icon-airbnb"></i><span class="word-business" style={{ color: "white", fontSize: "20px" }}>ABC</span>
                             </a>
                         </div>
+                        <div class="comp pull-right show-login">
+                            <a onClick={handleAdminLogin} class="hdr-btn link-reset" data-header-view="true" data-signup-modal="" style={{ color: "white" }}>
+                                <b style={{ fontSize: "15px" }}>Admin Login</b>
+                            </a>
+                        </div>
                         <div class="comp pull-right show-logout">
                             <a id={label} onClick={handleAuthBtn} class="hdr-btn link-reset" data-header-view="true" data-signup-modal="" style={{ color: "white" }}>
                                 <b style={{ fontSize: "15px" }}>{label}</b>
                             </a>
                         </div>
-                        <div class="comp pull-right show-logout">
+                        <div class="comp pull-right show-home">
                             <a href="/" class="hdr-btn link-reset" data-header-view="true" data-signup-modal="" style={{ color: "white" }}>
                                 <b style={{ fontSize: "15px" }}>Home</b>
                             </a>
                         </div>
-                        <div class="search-bar-container pull-right">
-                        </div>
-                        <div>
+                        {/* <div>
                             <a onClick={handleAdminLogin}><b>Admin Login</b></a>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
@@ -157,8 +160,3 @@ function HomePage() {
     )
 }
 export default HomePage;
-
-
-
-
-
