@@ -22,6 +22,7 @@ import Axios from 'axios';
 //     //         </div>
 //     //     )
 //     // }
+
 // }
 
 function HomePage() {
@@ -149,8 +150,3 @@ function HomePage() {
     )
 }
 export default HomePage;
-
-
-
-
-
