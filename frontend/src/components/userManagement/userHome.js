@@ -3,6 +3,7 @@ import msg from '../../assets/images/message.jpg';
 import '../../assets/css/userHome.css';
 import Header from '../header';
 import Axios from 'axios';
+import firebase from '../../Firebase/firebase.js';
 
 const initialStates = {
     "userdetails": [],
@@ -10,13 +11,17 @@ const initialStates = {
     "message": '',
     "date": '',
     "errorMsg": '',
-    "previousMsgs": []
+    "previousMsgs": [],
+    "filename": '',
+    "downloadURL": '',
+    "previousFiles": []
 }
 export default class addNotePage extends Component {
     constructor(props) {
         super(props);
         this.onChange = this.onChange.bind(this);
         this.handleSubmitBtn = this.handleSubmitBtn.bind(this);
+        this.onFileUpload = this.onFileUpload.bind(this);
         this.state = initialStates;
     }
 
@@ -27,9 +32,11 @@ export default class addNotePage extends Component {
             .then((result) => {
                 user = result.data.data;
                 this.getPreviousMsg(user._id);
+
                 //Show the file upload sections - IF MANAGER LOGGED IN
                 if (user.userRole == 'Manager') {
                     this.setState({ isManager: true });
+                    this.getPreviousFiles(user._id);
 
                     document.getElementById("uploadFileSection").style.display = "block";
                     document.getElementById("fileUploadTbSection").style.display = "block";
@@ -57,6 +64,24 @@ export default class addNotePage extends Component {
                     document.getElementById("noMessageTag").style.display = "none";
                 } else {
                     document.getElementById("noMessageTag").style.display = "block";
+                }
+            }).catch((error) => {
+                console.log('Error Occurred! : ', error);
+            });
+    }
+
+    getPreviousFiles(userid) {
+        let files = [];
+
+        Axios.get(`http://localhost:3001/file/getFileByUserId/${userid}`)
+            .then((result) => {
+                files = result.data.data;
+
+                if (files.length > 0) {
+                    this.setState({ previousFiles: files });
+                    document.getElementById("noFilesTag").style.display = "none";
+                } else {
+                    document.getElementById("noFilesTag").style.display = "block";
                 }
             }).catch((error) => {
                 console.log('Error Occurred! : ', error);
@@ -102,6 +127,19 @@ export default class addNotePage extends Component {
             this.setState({ errorMsg: '*Message is required' });
             document.getElementById("errorMsg").style.display = "block";
         }
+
+        //Handle Manager logics
+        if (this.state.downloadURL.length > 0 && this.state.isManager == true) {
+            let file = {
+                "user": this.state.userdetails._id,
+                "fileName": this.state.filename,
+                "fileDownloadURL": this.state.downloadURL,
+                "uploadedDate": this.state.date,
+                "uploadedTime": time
+            }
+            console.log('Post File : ', file);
+            this.postFile(file);
+        }
     }
 
     postMessage(message) {
@@ -113,6 +151,35 @@ export default class addNotePage extends Component {
             }).catch((error) => {
                 console.log('Error occurred! Please contact system administrator');
             })
+    }
+
+    postFile(file) {
+        Axios.post('http://localhost:3001/file/addFile', file)
+            .then((result) => {
+                console.log('File saved successfully!');
+                alert('File saved successfully!');
+                window.location.reload();
+            }).catch((error) => {
+                console.log('Error occurred! Please contact system administrator');
+            })
+    }
+
+    async onFileUpload(e) {
+        const file = e.target.files[0];
+
+        const storageRef = firebase.storage().ref();
+        const fileRef = storageRef.child(file.name);
+
+        await fileRef.put(file).then(() => {
+        }).catch(error => {
+            alert(error.message);
+        });
+
+        const downloadURL = await fileRef.getDownloadURL();
+        this.setState({ downloadURL: downloadURL });
+        alert('File Uploaded Successfully!!', file.name);
+        this.setState({ filename: file.name });
+
     }
 
     render() {
@@ -157,6 +224,7 @@ export default class addNotePage extends Component {
                                                     className="form-control"
                                                     id="file"
                                                     name="file"
+                                                    onChange={this.onFileUpload}
                                                     style={{ border: "1px solid #c8cfcb", backgroundColor: "#edf0eb" }}
                                                 />
                                             </div>
@@ -195,7 +263,7 @@ export default class addNotePage extends Component {
                                 </table>
                             </div>
                             <div class="column">
-                                <table class="table" id="fileUploadTbSection">
+                                <table class="table" id="fileUploadTbSection" style={{ display: "none" }}>
                                     <thead class="thead-dark">
                                         <tr>
                                             <th scope="col" style={{ width: '62%' }}>FILE</th>
@@ -204,7 +272,14 @@ export default class addNotePage extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        {this.state.previousFiles.length > 0 && this.state.previousFiles.map((item, index) =>
+                                            <tr>
+                                                <td>{item.fileName}</td>
+                                                <td>{item.uploadedDate}</td>
+                                                <td>{item.uploadedTime}</td>
+                                            </tr>
+                                        )}
+                                        {/* <tr>
                                             <td>work.txt</td>
                                             <td>2022.10.20</td>
                                             <td>10:00 AM</td>
@@ -223,7 +298,10 @@ export default class addNotePage extends Component {
                                             <td>work.txt</td>
                                             <td>2022.10.20</td>
                                             <td>10:00 AM</td>
-                                        </tr>
+                                        </tr> */}
+                                        <div class="alert alert-danger" role="alert" style={{ width: "156%", display: "none", fontFamily: "serif" }} id="noFilesTag">
+                                            <center><h3>No previous files to display</h3></center>
+                                        </div>
                                     </tbody>
                                 </table>
                             </div>
