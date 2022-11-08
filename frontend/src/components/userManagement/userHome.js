@@ -123,22 +123,22 @@ export default class addNotePage extends Component {
             console.log('Post Message : ', message);
             this.postMessage(message);
 
+            //Handle Manager logics
+            if (this.state.downloadURL.length > 0 && this.state.isManager == true) {
+                let file = {
+                    "user": this.state.userdetails._id,
+                    "fileName": this.state.filename,
+                    "fileDownloadURL": this.state.downloadURL,
+                    "uploadedDate": this.state.date,
+                    "uploadedTime": time
+                }
+                console.log('Post File : ', file);
+                this.postFile(file);
+            }
+
         } else {
             this.setState({ errorMsg: '*Message is required' });
             document.getElementById("errorMsg").style.display = "block";
-        }
-
-        //Handle Manager logics
-        if (this.state.downloadURL.length > 0 && this.state.isManager == true) {
-            let file = {
-                "user": this.state.userdetails._id,
-                "fileName": this.state.filename,
-                "fileDownloadURL": this.state.downloadURL,
-                "uploadedDate": this.state.date,
-                "uploadedTime": time
-            }
-            console.log('Post File : ', file);
-            this.postFile(file);
         }
     }
 
@@ -165,6 +165,7 @@ export default class addNotePage extends Component {
     }
 
     async onFileUpload(e) {
+        document.getElementById("sendBtn").disabled = true;
         const file = e.target.files[0];
 
         const storageRef = firebase.storage().ref();
@@ -179,6 +180,8 @@ export default class addNotePage extends Component {
         this.setState({ downloadURL: downloadURL });
         alert('File Uploaded Successfully!!', file.name);
         this.setState({ filename: file.name });
+
+        document.getElementById("sendBtn").disabled = false;
 
     }
 
