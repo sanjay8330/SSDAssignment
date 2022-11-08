@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import Axios from 'axios';
 
 const initialStates = {
-    "userlist": [],
-    "userInfo": [],
+    "users": [],
     "searchUser": ''
 }
 
@@ -12,6 +11,7 @@ export default class users extends Component {
     constructor(props) {
         super(props);
         this.onChange = this.onChange.bind(this);
+        this.navigatetoUpdateUsers = this.navigatetoUpdateUsers.bind(this);
         this.state = initialStates;
     }
 
@@ -22,14 +22,14 @@ export default class users extends Component {
     componentDidMount(e) {
         Axios.get('http://localhost:3001/user/getAllUsers')
             .then(response => {
-                this.setState({ userlist: response.data.data });
+                this.setState({ users: response.data.data });
             }).catch(error => {
                 alert(error.message);
             });
     }
 
-    navigatetoUpdateUsers() {
-        window.location = "/updateUser";
+    navigatetoUpdateUsers(e, userId) {
+        window.location = `/updateUser/${userId}`;
     }
 
     render() {
@@ -77,7 +77,7 @@ export default class users extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.userlist.length > 0 && this.state.userlist.filter((values) => {
+                                    {this.state.users.length > 0 && this.state.users.filter((values) => {
                                         if (this.state.searchUser == "") {
                                             return values;
                                         } else if (values.userEmail.toLowerCase().includes(this.state.searchUser.toLowerCase())) {
@@ -90,7 +90,7 @@ export default class users extends Component {
                                             <td><span class="highlight" style={{ backgroundColor: '#f0ec0e', padding: '0.4em 0.6em', color: 'red' }} ><b>{item.userRole}</b></span></td>
                                             <td>
                                                 <li class="list-inline-item">
-                                                    <button onClick={this.navigatetoUpdateUsers} class="btn btn-success btn-sm rounded-0" style={{ backgroundColor: 'green' }} type="button" data-toggle="tooltip" data-placement="top" title="Edit">UPDATE &nbsp; <i class="fas fa-edit"></i></button>
+                                                    <button onClick={e => this.navigatetoUpdateUsers(e, item._id)} class="btn btn-success btn-sm rounded-0" style={{ backgroundColor: 'green' }} type="button" data-toggle="tooltip" data-placement="top" title="Edit">UPDATE &nbsp; <i class="fas fa-edit"></i></button>
                                                 </li>
                                             </td>
                                         </tr>
