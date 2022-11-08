@@ -21,7 +21,7 @@ function App() {
             <Route path="/adminHome/:id" component={AdminHome} />
             <Route path="/viewProfiles" component={Users} />
             <Route path="/viewUsers" component={Users} />
-            <Route path="/updateUser" component={UpdateUsers} />
+            <Route path="/updateUser/:id" component={UpdateUsers} />
           </Switch>
         </section>
       </Router>

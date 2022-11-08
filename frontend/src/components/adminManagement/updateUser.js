@@ -1,7 +1,60 @@
 import React, { Component } from 'react'
 import user from '../../assets/images/user.jpg';
+import Axios from 'axios';
+
+const initialStates = {
+    username: '',
+    userEmail: '',
+    userRole: ''
+}
 
 export default class updateUser extends Component {
+
+    constructor(props) {
+        super(props);
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.state = initialStates;
+    }
+
+    componentDidMount() {
+        Axios.get(`http://localhost:3001/user/getUserById/${this.props.match.params.id}`)
+            .then(response => {
+                this.setState({ users: response.data.data });
+                this.setState({ username: this.state.users.username });
+                this.setState({ userEmail: this.state.users.userEmail });
+                this.setState({ userRole: this.state.users.userRole });
+            }).catch(error => {
+                console.log(error.message);
+            })
+    }
+
+    onChange(e) {
+        e.persist();
+        this.setState({ [e.target.name]: e.target.value });
+    }
+
+    onSubmit(e) {
+        e.preventDefault();
+
+        const err = this.validate();
+        if (!err) {
+
+            let updateUser = {
+                "username": this.state.username,
+                "userEmail": this.state.userEmail,
+                "userRole": this.state.userRole,
+            }
+            Axios.put(`http://localhost:3001/user/updateUserRole/${this.props.match.params.id}`, updateUser)
+                .then(response => {
+                    alert('User Profile Details Updated Successfully');
+                    window.location = "/viewUsers";
+                }).catch(error => {
+                    alert(error.message);
+                })
+        }
+    }
+
     render() {
         return (
             <div>
@@ -22,32 +75,42 @@ export default class updateUser extends Component {
                         <div class="container border rounded" style={{ width: '500px', backgroundColor: "#97c5de" }}>
                             <div class="row">
                                 <div class="col-lg-12 col-md-6">
-                                    <form><br />
+                                    <form onSubmit={this.onSubmit}><br />
                                         <div className="form-group">
                                             <img class="d-block w-100" src={user} alt="First slide" /><br />
+
                                             <span style={{ color: "black" }}>User Name<span style={{ color: "red", fontSize: "24px" }}>*</span></span>
                                             <input
                                                 class="form-control"
                                                 type="text"
+                                                defaultValue={this.state.username}
                                                 name="username"
                                                 id="username"
-                                                required /><br />
+                                                onChange={this.onChange}
+                                                required />
+                                            <br />
+
                                             <span style={{ color: "black" }}>Email Address<span style={{ color: "red", fontSize: "24px" }}>*</span></span>
                                             <input
                                                 class="form-control"
-                                                type="email"
+                                                type="text"
                                                 name="userEmail"
+                                                defaultValue={this.state.userEmail}
                                                 id="userEmail"
-                                                required /><br />
+                                                onChange={this.onChange}
+                                                required />
+                                            <br />
+
                                             <span style={{ color: "black" }}>Profile<span style={{ color: "red", fontSize: "24px" }}>*</span></span><br />
-                                            <select name="profileType" id="profileType" class="form-select" aria-label="Default select example" style={{ border: "1px solid #c8cfcb", backgroundColor: "#edf0eb", width: "100%", height: "40px" }}>
-                                                <option selected value="pro" disabled>Select Profile</option>
+                                            <select name="userRole" onChange={this.onChange} value={this.state.userRole} class="form-select" aria-label="Default select example" style={{ border: "1px solid #c8cfcb", backgroundColor: "#edf0eb", width: "100%", height: "40px" }}>
                                                 <option value="Worker">Worker</option>
                                                 <option value="Manager">Manager</option>
-                                                <option value="SysAdmin">System Admin</option>
-                                            </select><br />
+                                                <option value="System Admin">System Admin</option>
+                                            </select>
+                                            <br />
+
                                         </div><br />
-                                        <button type="submit" style={{ width: '100%' }} className="btn btn-dark" id="updateBtn">UPDATE</button>
+                                        <button type="submit" style={{ width: '100%' }} className="btn btn-dark" id="submitBtn">UPDATE</button>
                                         <br /><br />
                                     </form>
                                 </div>
