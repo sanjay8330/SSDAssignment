@@ -3,9 +3,10 @@ import user from '../../assets/images/user.jpg';
 import Axios from 'axios';
 
 const initialStates = {
-    username: '',
-    userEmail: '',
-    userRole: ''
+    "users": [],
+    "username": '',
+    "userEmail": '',
+    "userRole": ''
 }
 
 export default class updateUser extends Component {
@@ -37,22 +38,18 @@ export default class updateUser extends Component {
     onSubmit(e) {
         e.preventDefault();
 
-        const err = this.validate();
-        if (!err) {
-
-            let updateUser = {
-                "username": this.state.username,
-                "userEmail": this.state.userEmail,
-                "userRole": this.state.userRole,
-            }
-            Axios.put(`http://localhost:3001/user/updateUserRole/${this.props.match.params.id}`, updateUser)
-                .then(response => {
-                    alert('User Profile Details Updated Successfully');
-                    window.location = "/viewUsers";
-                }).catch(error => {
-                    alert(error.message);
-                })
+        let updateUser = {
+            "username": this.state.username,
+            "userEmail": this.state.userEmail,
+            "userRole": this.state.userRole,
         }
+        Axios.put(`http://localhost:3001/user/updateUserRole/${this.props.match.params.id}`, updateUser)
+            .then(response => {
+                alert('User Profile Details Updated Successfully');
+                window.location = "/viewUsers";
+            }).catch(error => {
+                alert(error.message);
+            })
     }
 
     render() {
@@ -81,22 +78,20 @@ export default class updateUser extends Component {
 
                                             <span style={{ color: "black" }}>User Name<span style={{ color: "red", fontSize: "24px" }}>*</span></span>
                                             <input
-                                                class="form-control"
+                                                className="form-control"
                                                 type="text"
-                                                defaultValue={this.state.username}
                                                 name="username"
-                                                id="username"
+                                                defaultValue={this.state.username}
                                                 onChange={this.onChange}
                                                 required />
                                             <br />
 
                                             <span style={{ color: "black" }}>Email Address<span style={{ color: "red", fontSize: "24px" }}>*</span></span>
                                             <input
-                                                class="form-control"
+                                                className="form-control"
                                                 type="text"
                                                 name="userEmail"
                                                 defaultValue={this.state.userEmail}
-                                                id="userEmail"
                                                 onChange={this.onChange}
                                                 required />
                                             <br />
