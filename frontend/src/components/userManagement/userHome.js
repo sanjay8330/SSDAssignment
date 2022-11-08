@@ -302,7 +302,8 @@ export default class addNotePage extends Component {
                                             <td>2022.10.20</td>
                                             <td>10:00 AM</td>
                                         </tr> */}
-                                        <div class="alert alert-danger" role="alert" style={{ width: "156%", display: "none", fontFamily: "serif" }} id="noFilesTag">
+                                         <br />
+                                        <div class="alert alert-danger" role="alert" style={{ width: "160%", display: "none", fontFamily: "serif" }} id="noFilesTag">
                                             <center><h3>No previous files to display</h3></center>
                                         </div>
                                     </tbody>
