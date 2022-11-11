@@ -19,9 +19,9 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/userHome/:id" component={UserHome} />
             <Route path="/adminHome/:id" component={AdminHome} />
-            <Route path="/viewProfiles" component={Users} />
-            <Route path="/viewUsers" component={Users} />
-            <Route path="/updateUser/:id" component={UpdateUsers} />
+            <Route path="/viewProfiles/:id" component={AdminHome} />
+            <Route path="/viewUsers/:id" component={Users} />
+            <Route path="/updateUser/:id/:adminId" component={UpdateUsers} />
           </Switch>
         </section>
       </Router>

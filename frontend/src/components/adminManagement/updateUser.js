@@ -6,7 +6,8 @@ const initialStates = {
     "users": [],
     "username": '',
     "userEmail": '',
-    "userRole": ''
+    "userRole": '',
+    "adminID": ''
 }
 
 export default class updateUser extends Component {
@@ -15,6 +16,8 @@ export default class updateUser extends Component {
         super(props);
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.navigateToAdminHome = this.navigateToAdminHome.bind(this);
+        this.navigateToViewUsers = this.navigateToViewUsers.bind(this);
         this.state = initialStates;
     }
 
@@ -27,7 +30,10 @@ export default class updateUser extends Component {
                 this.setState({ userRole: this.state.users.userRole });
             }).catch(error => {
                 console.log(error.message);
-            })
+            });
+
+        let adminId = this.props.match.params.adminId;
+        this.setState({ adminID: adminId });
     }
 
     onChange(e) {
@@ -46,10 +52,19 @@ export default class updateUser extends Component {
         Axios.put(`http://localhost:3001/user/updateUserRole/${this.props.match.params.id}`, updateUser)
             .then(response => {
                 alert('User Profile Details Updated Successfully');
-                window.location = "/viewUsers";
+                window.location = `/viewUsers/${this.state.adminID}`;
             }).catch(error => {
                 alert(error.message);
             })
+    }
+
+    navigateToAdminHome(){
+        window.location = `/viewProfiles/${this.state.adminID}`;
+    }
+
+    navigateToViewUsers(){
+        console.log('Button CLicked!');
+        window.location = `/viewUsers/${this.state.adminID}`;
     }
 
     render() {
@@ -62,8 +77,8 @@ export default class updateUser extends Component {
                         </header><hr style={{ color: "white" }} />
                         <ul><br />
                             <p style={{ color: "white" }}>&nbsp;&nbsp;User Management</p>
-                            <li><a a href="/viewProfiles" style={{ color: "white" }} >Profiles</a></li>
-                            <li><a href="/viewUsers" style={{ color: "white" }}>Users</a></li>
+                            <li><a onClick={this.navigateToAdminHome} style={{ color: "white" }} >Profiles</a></li>
+                            <li><a onClick={this.navigateToViewUsers} style={{ color: "white" }}>Users</a></li>
                             <li><a href="/" style={{ color: "white" }}>Logout</a></li>
                         </ul>
                     </nav>

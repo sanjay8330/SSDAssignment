@@ -3,6 +3,7 @@ import Header from '../header';
 import '../../assets/css/login.css';
 import loginImg from '../../assets/images/login.png';
 import Axios from 'axios';
+import { sha256 } from 'crypto-hash';
 
 const initialStates = {
     "email": '',
@@ -27,10 +28,13 @@ export default class Login extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    handleAdminLogin(e) {
+    async handleAdminLogin(e) {
         e.preventDefault();
 
         let userdetails = [];
+
+        let hashEnteredPassword = await sha256(this.state.password);
+        console.log('hashed PW : ', hashEnteredPassword);
 
         //Admin Password logics
         Axios.get(`http://localhost:3001/user/getUserByEmailID/${this.state.email}`)
@@ -40,7 +44,7 @@ export default class Login extends Component {
                 if (userdetails.length == 1) {
 
                     //Handle the hash passwprd matching
-                    if (this.state.password == userdetails[0].userPassword) {
+                    if (hashEnteredPassword == userdetails[0].userPassword) {
                         this.navigatetoAdminHomePage(userdetails[0]._id);
                     } else {
                         this.setState({ errorMsg: '*User name or password is incorrect' });

@@ -3,7 +3,8 @@ import Axios from 'axios';
 
 const initialStates = {
     "users": [],
-    "searchUser": ''
+    "searchUser": '',
+    "adminID": ''
 }
 
 export default class users extends Component {
@@ -12,6 +13,8 @@ export default class users extends Component {
         super(props);
         this.onChange = this.onChange.bind(this);
         this.navigatetoUpdateUsers = this.navigatetoUpdateUsers.bind(this);
+        this.navigateToAdminHome = this.navigateToAdminHome.bind(this);
+        this.navigateToViewUsers = this.navigateToViewUsers.bind(this);
         this.state = initialStates;
     }
 
@@ -26,10 +29,21 @@ export default class users extends Component {
             }).catch(error => {
                 alert(error.message);
             });
+
+        let adminId = this.props.match.params.id;
+        this.setState({ adminID: adminId });
     }
 
     navigatetoUpdateUsers(e, userId) {
-        window.location = `/updateUser/${userId}`;
+        window.location = `/updateUser/${userId}/${this.state.adminID}`;
+    }
+
+    navigateToAdminHome(){
+        window.location = `/viewProfiles/${this.state.adminID}`;
+    }
+
+    navigateToViewUsers(){
+        window.location = `/viewUsers/${this.state.adminID}`;
     }
 
     render() {
@@ -42,8 +56,8 @@ export default class users extends Component {
                         </header><hr style={{ color: "white" }} />
                         <ul><br />
                             <p style={{ color: "white" }}>&nbsp;&nbsp;User Management</p>
-                            <li><a a href="/viewProfiles" style={{ color: "white" }} >Profiles</a></li>
-                            <li><a href="/viewUsers" style={{ color: "white" }} class="active">Users</a></li>
+                            <li><a onClick={this.navigateToAdminHome} style={{ color: "white" }} >Profiles</a></li>
+                            <li><a onClick={this.navigateToViewUsers} style={{ color: "white" }} class="active">Users</a></li>
                             <li><a href="/" style={{ color: "white" }}>Logout</a></li>
                         </ul>
                     </nav>
