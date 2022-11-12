@@ -98,6 +98,7 @@ export default class updateUser extends Component {
                                                 name="username"
                                                 defaultValue={this.state.username}
                                                 onChange={this.onChange}
+                                                disabled
                                                 required />
                                             <br />
 
@@ -108,6 +109,7 @@ export default class updateUser extends Component {
                                                 name="userEmail"
                                                 defaultValue={this.state.userEmail}
                                                 onChange={this.onChange}
+                                                disabled
                                                 required />
                                             <br />
 

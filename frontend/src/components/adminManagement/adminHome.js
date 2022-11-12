@@ -12,16 +12,16 @@ export default class adminHome extends Component {
         this.state = initialStates;
     }
 
-    componentDidMount(e){
+    componentDidMount(e) {
         let adminId = this.props.match.params.id;
         this.setState({ adminID: adminId });
     }
 
-    navigateToAdminHome(){
+    navigateToAdminHome() {
         window.location = `/viewProfiles/${this.state.adminID}`;
     }
 
-    navigateToViewUsers(){
+    navigateToViewUsers() {
         console.log('Button CLicked!');
         window.location = `/viewUsers/${this.state.adminID}`;
     }
@@ -44,19 +44,7 @@ export default class adminHome extends Component {
                     <main>
                         <h1>PROFILES</h1>
 
-                        <div class="wrap">
-                            <div class="search">
-                                <input
-                                    type="text"
-                                    placeholder="Search by Email Address"
-                                    name="searchNote"
-                                    id="searchNote"
-                                    class="searchTerm" />
-                                <button type="submit" class="searchButton">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div><br /><br /><br />
+                        <br /><br />
 
                         <center>
                             <table class="table border shadow" id="casti_male" style={{ width: "90%" }}>
