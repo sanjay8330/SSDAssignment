@@ -1,3 +1,8 @@
+/**
+ * SCOPE    -   ADMIN MANAGEMENT
+ * PAGE     -  USERS PAGE 
+ */
+
 import React, { Component } from 'react'
 import Axios from 'axios';
 
@@ -22,8 +27,13 @@ export default class users extends Component {
         this.setState({ searchUser: e.target.value });
     }
 
+    /**
+    * DESCRIPTION       -       The function written to get all the user details.
+    * METHOD CALLS      -       setState()
+    * API CALL          -       GET ALL USER DETAILS
+    */
     componentDidMount(e) {
-        Axios.get('http://localhost:3001/user/getAllUsers')
+        Axios.get('https://localhost:3001/user/getAllUsers')
             .then(response => {
                 this.setState({ users: response.data.data });
             }).catch(error => {
@@ -34,15 +44,24 @@ export default class users extends Component {
         this.setState({ adminID: adminId });
     }
 
+    /**
+     * DESCRIPTION      -       The function to navigate to theupdate user page
+     */
     navigatetoUpdateUsers(e, userId) {
         window.location = `/updateUser/${userId}/${this.state.adminID}`;
     }
 
-    navigateToAdminHome(){
+    /**
+     * DESCRIPTION      -       The function to navigate to the admin home page
+     */
+    navigateToAdminHome() {
         window.location = `/viewProfiles/${this.state.adminID}`;
     }
 
-    navigateToViewUsers(){
+    /**
+     * DESCRIPTION      -       The function to navigate to the view users page
+     */
+    navigateToViewUsers() {
         window.location = `/viewUsers/${this.state.adminID}`;
     }
 

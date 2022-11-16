@@ -1,5 +1,5 @@
 /*************************************************************
-* Developer   :   Sanjay Sakthivel (IT19158228)
+* Developer   :   Sanjay Sakthivel (IT19158228), Kavindi Gimshani (IT19150826), Kasuni Navodya (IT19144986)
 * Purpose     :   User Model on Database
 * CreatedDate :   02nd November 2022
 *************************************************************/

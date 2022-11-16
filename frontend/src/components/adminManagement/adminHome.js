@@ -1,3 +1,8 @@
+/**
+ * SCOPE    -   ADMIN MANAGEMENT
+ * PAGE     -   ADMIN HOME PAGE 
+ */
+
 import React, { Component } from 'react'
 import '../../assets/css/admin.css';
 
@@ -17,10 +22,16 @@ export default class adminHome extends Component {
         this.setState({ adminID: adminId });
     }
 
+    /**
+     * DESCRIPTION      -       The function to navigate to the view profile page
+     */
     navigateToAdminHome() {
         window.location = `/viewProfiles/${this.state.adminID}`;
     }
 
+    /**
+     * DESCRIPTION      -       The function to navigate to the view user page
+     */
     navigateToViewUsers() {
         console.log('Button CLicked!');
         window.location = `/viewUsers/${this.state.adminID}`;
@@ -43,9 +54,7 @@ export default class adminHome extends Component {
                     </nav>
                     <main>
                         <h1>PROFILES</h1>
-
                         <br /><br />
-
                         <center>
                             <table class="table border shadow" id="casti_male" style={{ width: "90%" }}>
                                 <thead class="thead-dark">

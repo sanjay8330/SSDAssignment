@@ -1,29 +1,13 @@
-//import React, { Component } from 'react'
+/**
+ * PAGE     -   HOME PAGE 
+ */
+
 import React, { useState, useEffect } from 'react';
-import Header from './header';
 import abc from '../assets/images/abc.png';
 import '../assets/css/home.css';
 import '../assets/css/style.css';
 import { useAuth0 } from '@auth0/auth0-react';
 import Axios from 'axios';
-
-// export default class homePage extends Component {
-
-//     // render() {
-//     //     return (
-//     //         <div>
-//     //             <Header />
-//     //             <div>
-//     //                 <img class="d-block w-100" src={abc} alt="First slide" style={{ opacity: "0.7" }} />
-//     //                 <div class="centered"><p style={{ fontSize: "200px", color: "#eb3110", fontFamily: "audiowide" }}>ABC</p></div>
-//     //                 <br /><br /><br />
-//     //                 <div class="centered2"><b><p style={{ fontSize: "60px", color: "#bd3011", fontFamily: "trirong" }}>Saving Massages & Files</p></b></div>
-//     //             </div>
-//     //         </div>
-//     //     )
-//     // }
-
-// }
 
 function HomePage() {
     const { loginWithRedirect, logout, user, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -46,7 +30,7 @@ function HomePage() {
             try {
                 const token = await getAccessTokenSilently();
 
-                const response = await Axios.get(`http://localhost:3001/user/getUserByEmailID/${user.email}`, {
+                const response = await Axios.get(`https://localhost:3001/user/getUserByEmailID/${user.email}`, {
                     headers: {
                         authorization: `Bearer ${token}`
                     }
@@ -71,11 +55,14 @@ function HomePage() {
         }
     }
 
+     /**
+     * DESCRIPTION      -       The function written to update the user token
+     */
     function updateUserToken(userid, newToken) {
         let updUserObj = {
             "newToken": newToken
         }
-        Axios.put(`http://localhost:3001/user/updateUserToken/${userid}`, updUserObj)
+        Axios.put(`https://localhost:3001/user/updateUserToken/${userid}`, updUserObj)
             .then((result) => {
                 console.log('Token Updated successfully!');
                 window.location = `/userHome/${userid}`;
@@ -91,7 +78,12 @@ function HomePage() {
             userRole: 'Worker',
             jwtToken: token
         }
-        Axios.post('http://localhost:3001/user/addUser', userDetails)
+
+         /**
+         * DESCRIPTION       -       The function written to save the user details.
+         * API CALL          -       ADD USER DETAILS
+        */
+        Axios.post('https://localhost:3001/user/addUser', userDetails)
             .then((result) => {
                 console.log('User details added successfully!');
                 window.location = '/userHome';
@@ -109,6 +101,9 @@ function HomePage() {
         }
     }
 
+    /**
+     * DESCRIPTION      -       The function to navigate to the admin login page
+     */
     function handleAdminLogin(){
         window.location = '/login';
     }
@@ -142,9 +137,6 @@ function HomePage() {
                                 <b style={{ fontSize: "15px" }}>Home</b>
                             </a>
                         </div>
-                        {/* <div>
-                            <a onClick={handleAdminLogin}><b>Admin Login</b></a>
-                        </div> */}
                     </div>
                 </div>
             </div>

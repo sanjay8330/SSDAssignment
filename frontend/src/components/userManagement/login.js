@@ -1,3 +1,8 @@
+/**
+ * SCOPE    -   USER MANAGEMENT
+ * PAGE     -   USER LOGIN PAGE 
+ */
+
 import React, { Component } from 'react'
 import Header from '../header';
 import '../../assets/css/login.css';
@@ -20,6 +25,9 @@ export default class Login extends Component {
         this.state = initialStates;
     }
 
+    /**
+     * DESCRIPTION      -       The function to navigate to the admin home page
+     */
     navigatetoAdminHomePage(adminId) {
         window.location = `/adminHome/${adminId}`;
     }
@@ -37,7 +45,7 @@ export default class Login extends Component {
         console.log('hashed PW : ', hashEnteredPassword);
 
         //Admin Password logics
-        Axios.get(`http://localhost:3001/user/getUserByEmailID/${this.state.email}`)
+        Axios.get(`https://localhost:3001/user/getUserByEmailID/${this.state.email}`)
             .then((result) => {
                 userdetails = result.data.data;
 
