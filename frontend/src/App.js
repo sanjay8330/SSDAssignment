@@ -3,8 +3,12 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import React, { Component } from "react";
 
 import Home from "./components/home";
+
+//User Management
 import Login from "./components/userManagement/login";
 import UserHome from "./components/userManagement/userHome";
+
+//Admin Management
 import AdminHome from "./components/adminManagement/adminHome";
 import Users from "./components/adminManagement/users";
 import UpdateUsers from "./components/adminManagement/updateUser";

@@ -1,5 +1,5 @@
 /*************************************************************
-* Developer   :   Sanjay Sakthivel (IT19158228)
+* Developer   :   Sanjay Sakthivel (IT19158228), Kavindi Gimshani (IT19150826), Kasuni Navodya (IT19144986), Keshawa Ekanayake (IT19150758)
 * Purpose     :   Main Backend JS File
 * CreatedDate :   02nd November 2022
 *************************************************************/
@@ -8,10 +8,12 @@ const mongoose = require('mongoose');
 const bodyparser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const https = require('https');
+const path = require('path');
+const fs = require('fs');
 
 var { expressjwt: jwt } = require("express-jwt");
 const jwks = require('jwks-rsa');
-
 
 dotenv.config();
 //Creating an app from express
@@ -84,8 +86,18 @@ mongoose.connection.once('open', () => {
 })
 
 //Running on the server
-app.listen(PORT,() => {
-    console.log(`Server is started and running on ${PORT}`);
-});
+// app.listen(PORT,() => {
+//     console.log(`Server is started and running on ${PORT}`);
+// });
+
+const sslServer = https.createServer(
+    {
+        key: fs.readFileSync(path.join(__dirname, 'cert', 'key.pem')),
+        cert: fs.readFileSync(path.join(__dirname, 'cert', 'cert.pem')),
+    },
+    app
+)
+
+sslServer.listen(PORT,() => {console.log(`Server is started and running on ${PORT}`);});
 
 module.exports = app;

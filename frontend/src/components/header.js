@@ -1,3 +1,7 @@
+/**
+ * PAGE     -   HEADER PAGE 
+ */
+
 import React, { Component } from 'react';
 import '../assets/css/style.css';
 
@@ -8,7 +12,6 @@ class Header extends Component {
 
     render() {
         return (
-
             <div class="clone-airbnb">
                 <div id="header" class="airbnb-header airbnb-business-header hide-print">
                     <header class="small-business-header show-sm" aria-hidden="true" role="banner">
@@ -22,7 +25,7 @@ class Header extends Component {
                             </a>
                         </div>
                         <div class="comp pull-right show-logout">
-                            <a href="/login" class="hdr-btn link-reset" data-header-view="true" data-signup-modal="" style={{ color: "white"}}>
+                            <a href="/login" class="hdr-btn link-reset" data-header-view="true" data-signup-modal="" style={{ color: "white" }}>
                                 <b style={{ fontSize: "15px" }}>Login</b>
                             </a>
                         </div>

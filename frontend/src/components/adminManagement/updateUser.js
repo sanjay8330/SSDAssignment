@@ -1,3 +1,8 @@
+/**
+ * SCOPE    -   ADMIN MANAGEMENT
+ * PAGE     -   UPDATE USER ROLE PAGE 
+ */
+
 import React, { Component } from 'react'
 import user from '../../assets/images/user.jpg';
 import Axios from 'axios';
@@ -21,8 +26,13 @@ export default class updateUser extends Component {
         this.state = initialStates;
     }
 
+    /**
+    * DESCRIPTION       -       The function written to get the user by ID.
+    * METHOD CALLS      -       setState()
+    * API CALL          -       GET USER DETAILS BY ID
+    */
     componentDidMount() {
-        Axios.get(`http://localhost:3001/user/getUserById/${this.props.match.params.id}`)
+        Axios.get(`https://localhost:3001/user/getUserById/${this.props.match.params.id}`)
             .then(response => {
                 this.setState({ users: response.data.data });
                 this.setState({ username: this.state.users.username });
@@ -41,6 +51,11 @@ export default class updateUser extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
+    /**
+    * DESCRIPTION       -       The function written to update the user role details.
+    * METHOD CALLS      -       setState()
+    * API CALL          -       UPDATE USER ROLE DETAILS
+    */
     onSubmit(e) {
         e.preventDefault();
 
@@ -49,7 +64,7 @@ export default class updateUser extends Component {
             "userEmail": this.state.userEmail,
             "userRole": this.state.userRole,
         }
-        Axios.put(`http://localhost:3001/user/updateUserRole/${this.props.match.params.id}`, updateUser)
+        Axios.put(`https://localhost:3001/user/updateUserRole/${this.props.match.params.id}`, updateUser)
             .then(response => {
                 alert('User Profile Details Updated Successfully');
                 window.location = `/viewUsers/${this.state.adminID}`;
@@ -58,10 +73,16 @@ export default class updateUser extends Component {
             })
     }
 
+    /**
+     * DESCRIPTION      -       The function to navigate to the admin home page
+     */
     navigateToAdminHome(){
         window.location = `/viewProfiles/${this.state.adminID}`;
     }
 
+    /**
+     * DESCRIPTION      -       The function to navigate to the view users page
+     */
     navigateToViewUsers(){
         console.log('Button CLicked!');
         window.location = `/viewUsers/${this.state.adminID}`;

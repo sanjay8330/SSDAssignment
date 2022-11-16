@@ -1,3 +1,8 @@
+/**
+ * SCOPE    -   USER MANAGEMENT
+ * PAGE     -   USER HOME PAGE 
+ */
+
 import React, { Component } from 'react'
 import msg from '../../assets/images/message.jpg';
 import '../../assets/css/userHome.css';
@@ -25,10 +30,15 @@ export default class addNotePage extends Component {
         this.state = initialStates;
     }
 
+    /**
+    * DESCRIPTION       -       The function written to get user by ID.
+    * METHOD CALLS      -       setState()
+    * API CALL          -       GET USER BY ID
+    */
     componentDidMount() {
         let user = [];
 
-        Axios.get(`http://localhost:3001/user/getUserById/${this.props.match.params.id}`)
+        Axios.get(`https://localhost:3001/user/getUserById/${this.props.match.params.id}`)
             .then((result) => {
                 user = result.data.data;
                 this.getPreviousMsg(user._id);
@@ -52,10 +62,15 @@ export default class addNotePage extends Component {
         this.setState({ date: this.formatDate() });
     }
 
+    /**
+    * DESCRIPTION       -       The function written to get message by userID.
+    * METHOD CALLS      -       setState()
+    * API CALL          -       GET MESSAGE BY USER ID
+    */
     getPreviousMsg(userid) {
         let messages = [];
 
-        Axios.get(`http://localhost:3001/message/getMsgByUserId/${userid}`)
+        Axios.get(`https://localhost:3001/message/getMsgByUserId/${userid}`)
             .then((result) => {
                 messages = result.data.data;
 
@@ -70,10 +85,15 @@ export default class addNotePage extends Component {
             });
     }
 
+    /**
+    * DESCRIPTION       -       The function written to get files by userID.
+    * METHOD CALLS      -       setState()
+    * API CALL          -       GET FILE BY USER ID
+    */
     getPreviousFiles(userid) {
         let files = [];
 
-        Axios.get(`http://localhost:3001/file/getFileByUserId/${userid}`)
+        Axios.get(`https://localhost:3001/file/getFileByUserId/${userid}`)
             .then((result) => {
                 files = result.data.data;
 
@@ -142,8 +162,12 @@ export default class addNotePage extends Component {
         }
     }
 
+    /**
+    * DESCRIPTION       -       The function written to save the message details.
+    * API CALL          -       SAVE MESSAGE DETAILS
+    */
     postMessage(message) {
-        Axios.post('http://localhost:3001/message/addMessage', message)
+        Axios.post('https://localhost:3001/message/addMessage', message)
             .then((result) => {
                 console.log('Message added successfully!');
                 alert('Message added successfully!');
@@ -153,8 +177,12 @@ export default class addNotePage extends Component {
             })
     }
 
+    /**
+    * DESCRIPTION       -       The function written to save the file details.
+    * API CALL          -       SAVE FILE DETAILS
+    */
     postFile(file) {
-        Axios.post('http://localhost:3001/file/addFile', file)
+        Axios.post('https://localhost:3001/file/addFile', file)
             .then((result) => {
                 console.log('File saved successfully!');
                 alert('File saved successfully!');
@@ -164,6 +192,7 @@ export default class addNotePage extends Component {
             })
     }
 
+    //File Upload Function
     async onFileUpload(e) {
         document.getElementById("sendBtn").disabled = true;
         const file = e.target.files[0];
@@ -302,7 +331,7 @@ export default class addNotePage extends Component {
                                             <td>2022.10.20</td>
                                             <td>10:00 AM</td>
                                         </tr> */}
-                                         <br />
+                                        <br />
                                         <div class="alert alert-danger" role="alert" style={{ width: "160%", display: "none", fontFamily: "serif" }} id="noFilesTag">
                                             <center><h3>No previous files to display</h3></center>
                                         </div>
